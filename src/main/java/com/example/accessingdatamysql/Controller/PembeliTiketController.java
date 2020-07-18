@@ -44,49 +44,50 @@ public class PembeliTiketController {
             pembeliTiketRepository.save(pembeli);
             return "Saved";
         } else {
-            boolean finish = false;
-            String ports[] = {"9001","9002"};
-            int i = 0;
-            while (!finish) {
-                String urlParameters = "idKonser=" + pembeli.getIdKonser() + "&idKelas=" + pembeli.getIdKelas()
-                    + "&namaPembeli=" + pembeli.getNamaPembeli();
-                byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-                int postDataLength = postData.length;
-                String request = "http://localhost:"+ports[i]+"/spring-java/api/add";
-                URL url;
-                try {
-                    url = new URL(request);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setDoOutput(true);
-                    conn.setInstanceFollowRedirects(false);
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    conn.setRequestProperty("charset", "utf-8");
-                    conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
-                    conn.setUseCaches(false);
-                    try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
-                        wr.write(postData);
-                    }
-                    if (conn.getResponseMessage().equals("Saved")) {
-                        finish = true;
-                        return conn.getResponseMessage() + "from port : " + ports[i];
-                    } else if ((conn.getResponseCode() != HttpURLConnection.HTTP_OK || conn.getResponseMessage().equals("Jumlah tiket kurang"))
-                        && i < 1) {
-                        i += 1;
-                    } else {
-                        finish = true;
-                        return conn.getResponseMessage();
-                    }
-                } catch (MalformedURLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (ProtocolException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
+            // boolean finish = false;
+            // String ports[] = {"9001","9002"};
+            // int i = 0;
+            // while (!finish) {
+            //     String urlParameters = "idKonser=" + pembeli.getIdKonser() + "&idKelas=" + pembeli.getIdKelas()
+            //         + "&namaPembeli=" + pembeli.getNamaPembeli();
+            //     byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+            //     int postDataLength = postData.length;
+            //     String request = "http://localhost:"+ports[i]+"/spring-java/api/add";
+            //     URL url;
+            //     try {
+            //         url = new URL(request);
+            //         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //         conn.setDoOutput(true);
+            //         conn.setInstanceFollowRedirects(false);
+            //         conn.setRequestMethod("POST");
+            //         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            //         conn.setRequestProperty("charset", "utf-8");
+            //         conn.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            //         conn.setUseCaches(false);
+            //         try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+            //             wr.write(postData);
+            //         }
+            //         if (conn.getResponseMessage().equals("Saved")) {
+            //             finish = true;
+            //             return conn.getResponseMessage() + "from port : " + ports[i];
+            //         } else if ((conn.getResponseCode() != HttpURLConnection.HTTP_OK || conn.getResponseMessage().equals("Jumlah tiket kurang"))
+            //             && i < 1) {
+            //             i += 1;
+            //         } else {
+            //             finish = true;
+            //             return conn.getResponseMessage();
+            //         }
+            //     } catch (MalformedURLException e) {
+            //         // TODO Auto-generated catch block
+            //         e.printStackTrace();
+            //     } catch (ProtocolException e) {
+            //         // TODO Auto-generated catch block
+            //         e.printStackTrace();
+            //     }
+            // }
+            return "Tiket kurang";
         }
-        return null;
+        // return null;
     }
 
     @PostMapping(path="api/add")
